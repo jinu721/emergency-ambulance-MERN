@@ -11,6 +11,7 @@ class UserService {
       throw err;
     }
   }
+  
   static async registerUser(userData: any) {
     try{
       const { name,email, password,phone } = userData.formData;
