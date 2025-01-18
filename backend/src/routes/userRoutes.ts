@@ -8,5 +8,5 @@ router.post('/login', UserController.loginUser);
 router.get('/profile', UserController.getUserProfile);
 router.put('/profile', UserController.updateUserProfile);
 router.delete('/:id', UserController.deleteUser);
-
+router.post('/validate/token',UserController.validateToken);
 export default router;

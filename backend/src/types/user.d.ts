@@ -8,12 +8,12 @@ export interface UserIF extends Document {
   role:Role;
   phone:string;
   isVerified: boolean; 
-  address?: {
-    street?: string;
-    city?: string;
-    state?: string;
-    zipCode?: string;
-  };
+  // address?: {
+  //   street?: string;
+  //   city?: string;
+  //   state?: string;
+  //   zipCode?: string;
+  // };
   createdAt?: Date;
   updatedAt?: Date;
 }
