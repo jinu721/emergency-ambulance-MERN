@@ -5,12 +5,12 @@ class UserController {
   static async getUsers(req: Request, res: Response) {
     try {
       const data = await UserService.getUsers();
-      res.status(200).json({ data });
+      res.status(200).json({ users:data });
     } catch (error:any) {
       console.log(error);
       res.status(500).json({ message: error.message });
     }
-  }
+  }  
   static async registerUser(req: Request, res: Response) {
     try {
       const { user, token } = await UserService.registerUser(req.body);

@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const ambulanceModel_1 = __importDefault(require("../models/ambulanceModel"));
 class AmbulanceService {
     static async createAmbulance(ambulanceData) {
+        const { numberPlate, type, driverId } = ambulanceData;
         const ambulance = new ambulanceModel_1.default(ambulanceData);
         await ambulance.save();
         return ambulance;

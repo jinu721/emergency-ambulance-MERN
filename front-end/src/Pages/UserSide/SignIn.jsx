@@ -84,7 +84,7 @@ const AuthPage = () => {
                 } else {
                     const { data } = await axiosUserInstance.post("/register", { formData })
                     if (data.token) {
-                        login()
+                        login() 
                         localStorage.setItem("token", data.token)
                         toast.success("User Created Successfully")
                         navigate("/")

@@ -2,6 +2,7 @@ import AmbulanceModel from '../models/ambulanceModel';
 
 class AmbulanceService {
   static async createAmbulance(ambulanceData: any) {
+    const {numberPlate , type , driverId} = ambulanceData
     const ambulance = new AmbulanceModel(ambulanceData);
     await ambulance.save();
     return ambulance;

@@ -4,7 +4,7 @@ import UserModel from '../models/userModel';
 
 class DriverService {
   static async getDrivers() {
-    try{
+    try{   
       const drivers = await UserModel.find({role:'driver'});
       if (!drivers) throw new Error('No drivers yet');
       return drivers;
