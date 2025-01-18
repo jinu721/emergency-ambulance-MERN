@@ -34,6 +34,7 @@ class UserController {
   }
 
   static async getUserProfile(req: Request, res: Response) {
+    console.log('HEBHEHEHEHEHEHE')
     try {
       const user = await UserService.getUserProfile(req.params?.id);
       res.status(200).json({ user });

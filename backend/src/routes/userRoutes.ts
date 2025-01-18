@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/register', UserController.registerUser);
 router.post('/login', UserController.loginUser);
-router.get('/profile', UserController.getUserProfile);
+router.get('/profile/:id', UserController.getUserProfile);
 router.put('/profile', UserController.updateUserProfile);
 router.delete('/:id', UserController.deleteUser);
 router.post('/validate/token',UserController.validateToken);
