@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const driverController_1 = __importDefault(require("../controllers/driverController"));
 const router = express_1.default.Router();
 router.get('/', driverController_1.default.getDrivers);
-router.post('/create', driverController_1.default.createDriver);
+router.post('/create/:id', driverController_1.default.createDriver);
 // router.post('/login', DriverController.loginDriver);
 // router.get('/:id', DriverController.getDriverProfile);
 // router.put('/:id', DriverController.updateDriverProfile);

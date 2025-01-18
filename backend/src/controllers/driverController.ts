@@ -13,7 +13,8 @@ class DriverController {
   }
   static async createDriver(req: Request, res: Response) {
     try {
-      const driver = await DriverService.createDriver(req.params.id);
+      const {role} = req.body;
+      const driver = await DriverService.createDriver(req.params.id,role);
       res.status(201).json({ driver });
     } catch (error:any) {
       console.log(error);

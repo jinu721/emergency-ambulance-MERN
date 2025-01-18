@@ -1,5 +1,5 @@
 import { Document } from "mongoose";
-import roleEnum from '../utils/roleEnum';
+import roleEnum from '../utilsuserData/roleEnum';
 
 export interface UserIF extends Document {
   name: string;

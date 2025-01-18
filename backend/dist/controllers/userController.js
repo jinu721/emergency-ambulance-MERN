@@ -5,6 +5,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const userService_1 = __importDefault(require("../services/userService"));
 class UserController {
+    static async getUsers(req, res) {
+        try {
+            const data = await userService_1.default.getUsers();
+            res.status(200).json({ data });
+        }
+        catch (error) {
+            console.log(error);
+            res.status(500).json({ message: error.message });
+        }
+    }
     static async registerUser(req, res) {
         try {
             const { user, token } = await userService_1.default.registerUser(req.body);

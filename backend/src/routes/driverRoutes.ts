@@ -4,7 +4,7 @@ import DriverController  from '../controllers/driverController';
 const router = express.Router();
 
 router.get('/', DriverController.getDrivers);
-router.post('/create', DriverController.createDriver);
+router.post('/create/:id', DriverController.createDriver);
 // router.post('/login', DriverController.loginDriver);
 // router.get('/:id', DriverController.getDriverProfile);
 // router.put('/:id', DriverController.updateDriverProfile);

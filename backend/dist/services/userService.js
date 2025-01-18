@@ -7,16 +7,26 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const userModel_1 = __importDefault(require("../models/userModel"));
 class UserService {
+    static async getUsers() {
+        try {
+            return await userModel_1.default.find();
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
     static async registerUser(userData) {
         try {
-            const { name, email, password, phone } = userData;
+            const { name, email, password, phone } = userData.formData;
+            console.log(name, email, password, phone);
             const existingUserEmail = await userModel_1.default.findOne({ email });
             if (existingUserEmail)
                 throw new Error('User email already exists');
             const hashedPassword = await bcryptjs_1.default.hash(password, 10);
             const user = new userModel_1.default({ name, email, phone, password: hashedPassword, role: 'user' });
             await user.save();
-            const token = jsonwebtoken_1.default.sign({ id: user._id }, 'symteron3737', { expiresIn: '1h' });
+            const token = jsonwebtoken_1.default.sign({ id: user._id, role: user.role }, 'symteron3737', { expiresIn: '1h' });
             return { user, token };
         }
         catch (err) {
@@ -26,15 +36,16 @@ class UserService {
     }
     static async loginUser(userData) {
         try {
-            const { email, password } = userData;
+            console.log(userData);
+            const { email, password } = userData.formData;
             const user = await userModel_1.default.findOne({ email });
             if (!user)
                 throw new Error('Invalid Username');
             const isMatch = await bcryptjs_1.default.compare(password, user.password);
             if (!isMatch)
                 throw new Error('Invalid Password');
-            const token = jsonwebtoken_1.default.sign({ id: user._id }, "symteron3737", { expiresIn: '1h' });
-            return token;
+            const token = jsonwebtoken_1.default.sign({ id: user._id, role: user.role }, "symteron3737", { expiresIn: '1h' });
+            return { user, token };
         }
         catch (err) {
             console.log(err);

@@ -138,7 +138,7 @@ const AuthPage = () => {
                                     <div className="relative">
                                         <Phone className="absolute left-3 top-3 h-5 w-5 text-red-400" />
                                         <input
-                                            name="name"
+                                            name="phone"
                                             type="text"
                                             placeholder="Phone Number"
                                             className="w-full pl-10 pr-3 py-2 border border-red-200 rounded-lg focus:outline-none focus:border-red-400 focus:ring-1 focus:ring-red-400"

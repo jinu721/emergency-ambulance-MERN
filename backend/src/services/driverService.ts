@@ -13,9 +13,9 @@ class DriverService {
       throw err;
     }
   }
-  static async createDriver(id: any) {
+  static async createDriver(id: any,role:string) {
     try{
-      return await UserModel.findByIdAndUpdate(id,{role:'driver'},{ new: true });
+      return await UserModel.findByIdAndUpdate(id,{role},{ new: true });
     }catch(err){
       console.log(err);
       throw err

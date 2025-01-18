@@ -9,7 +9,7 @@ import { errorHandler } from './middlewares/errorHandler';
 import ambulanceRoutes from './routes/ambulanceRoutes';
 import userRoutes from './routes/userRoutes';
 import bookingRoutes from './routes/bookingRoutes';
-import driversRoutes from './routes/bookingRoutes';
+import driversRoutes from './routes/driverRoutes';
 
 dotenv.config();
 
@@ -21,7 +21,7 @@ app.use(morgan('dev'));
 // app.use(authMiddleware);
 
 app.use('/api/ambulances', ambulanceRoutes);
-app.use('/api/drivers', ambulanceRoutes);
+app.use('/api/drivers', driversRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/bookings', bookingRoutes);
 
