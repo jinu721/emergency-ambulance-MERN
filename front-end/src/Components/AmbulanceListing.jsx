@@ -26,37 +26,6 @@ const AmbulanceListing = () => {
     fetchAmbulances()
   }, [])
 
-  // Dummy ambulance data
-  // const ambulances = [
-  //   {
-  //     id: 1,
-  //     name: "Advanced Life Support Unit 1",
-  //     type: "Type II",
-  //     status: "Available",
-  //     eta: "5 mins",
-  //     features: ["Advanced Life Support", "Critical Care Equipment", "GPS Tracking"],
-  //     rating: 4.8
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Basic Life Support Unit 3",
-  //     type: "Type I",
-  //     status: "Available",
-  //     eta: "8 mins",
-  //     features: ["Basic Life Support", "First Aid Equipment", "Wheelchair Access"],
-  //     rating: 4.6
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Emergency Response Unit 7",
-  //     type: "Type III",
-  //     status: "Available",
-  //     eta: "12 mins",
-  //     features: ["Emergency Response Kit", "Oxygen Supply", "Patient Monitor"],
-  //     rating: 4.9
-  //   }
-  // ];
-
   const handleBooking = (ambulance) => {
     setSelectedAmbulance(ambulance);
     setIsDialogOpen(true)
@@ -64,14 +33,22 @@ const AmbulanceListing = () => {
 
   const bookAmbulance = async () => {
     try {
-      
+       if(street.trim()== ""){
+        return toast.error("Street Is Required")
+       }
+       if(city.trim() == ""){
+        return toast.error("City is Required")
+       }
+       if(phone.trim() == ""  || /^\+?[1-9]\d{1,14}$/.test(phone) == false    ){
+        return toast.error("Phone Number Should be valid")
+       }
       let userInfo = localStorage.getItem("userInfo")
       if (!userInfo) {
         return toast.error("Please Login First For Book")
 
       }
       console.log( JSON.parse(userInfo))
-      const userId = JSON.parse(userInfo)._id
+      const userId = JSON.parse(userInfo)?._id
       if(!userId){
          return toast.error("Login First For booking ")
       }

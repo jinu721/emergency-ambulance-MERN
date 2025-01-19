@@ -15,7 +15,7 @@ function Navbar() {
     if(isLoggedIn){
         setNavItems( [
             { name: 'Home', href: '/' },
-            { name: 'Contact', href: '#contact' }
+            { name: 'Contact', href: '/contact' }
         ])
         let user =JSON.parse(localStorage.getItem("userInfo"))
         setUserData(user)
@@ -25,7 +25,7 @@ function Navbar() {
             { name: 'Home', href: '/' },
             { name: 'Signup', href: '/signup' },
             { name: 'Login', href: '/login' },
-            { name: 'Contact', href: '#contact' }
+            { name: 'Contact', href: '/contact' }
         ])
     }
     },[isLoggedIn])

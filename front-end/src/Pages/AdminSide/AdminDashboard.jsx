@@ -15,8 +15,9 @@ import {
 } from 'lucide-react';
 import { axiosAdminInstance, axiosAmbulanceInstance, axiosBookingInstance, axiosDriverInsance, axiosUserInstance } from '../../axiosInstance';
 import axios from 'axios';
-import { useAsyncError, useFetcher } from 'react-router-dom';
+import { useAsyncError, useFetcher, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useAuth } from '../../authContext';
 
 function AdminDashboard() {
     const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -36,6 +37,14 @@ function AdminDashboard() {
     const [ambulanceType, setAmbulanceType] = useState("basic")
     const ambulanceNumber = useRef()
     const driver = useRef()
+    const { isLoggedIn, login, logout, role } = useAuth()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (!isLoggedIn && role != "admin") {
+            navigate('/')
+        }
+    }, [])
     useEffect(() => {
         async function fetchStats() {
             const { data } = await axiosAdminInstance.get('/stats')
@@ -57,7 +66,7 @@ function AdminDashboard() {
             setAmbulances(data.ambulances)
         }
 
-       // fetchStats()
+        // fetchStats()
         fetchRequests()
         fetchUsers()
         fetchAmbulances()
@@ -84,6 +93,11 @@ function AdminDashboard() {
                 }
             }
             console.log(driverId)
+            if (driver.current.value.trim() == "" ||
+                ambulanceNumber.current.value.trim() == ""
+            ) {
+                return toast.error("All Fields are Required")
+            }
             if (driverId) {
                 const response = await axiosAmbulanceInstance.post('/', {
                     numberPlate: ambulanceNumber.current.value,
@@ -97,6 +111,7 @@ function AdminDashboard() {
                 toast.error("There is not such a Driver")
             }
         } catch (err) {
+            console.log(err)
             toast.error("Something went wrong")
         }
 
@@ -350,9 +365,9 @@ function AdminDashboard() {
                 </tr>
             </thead>
             <tbody>
-                {requests.map((request,idx) => (
+                {requests.map((request, idx) => (
                     <tr key={request.id} className="border-b">
-                        <td className="p-4">#{idx+1}</td>
+                        <td className="p-4">#{idx + 1}</td>
                         <td className="p-4">{request.user.name}</td>
                         <td className="p-4">{request.dropLocation.city}</td>
                         <td className="p-4">

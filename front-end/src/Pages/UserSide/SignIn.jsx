@@ -76,7 +76,7 @@ const AuthPage = () => {
                 if (isLogin) {
                     const { data } = await axiosUserInstance.post('/login', { formData })
                     if (data.token) {
-                        login()
+                        login(data.user.role)
                         console.log("userinfo")
                         console.log(data.user)
                         localStorage.setItem("userInfo",JSON.stringify(data.user))
@@ -87,7 +87,7 @@ const AuthPage = () => {
                 } else {
                     const { data } = await axiosUserInstance.post("/register", { formData })
                     if (data.token) {
-                        login() 
+                        login(data.user.role)
                         localStorage.setItem("userInfo",JSON.stringify(data.user))
                         localStorage.setItem("token", data.token)
                         toast.success("User Created Successfully")

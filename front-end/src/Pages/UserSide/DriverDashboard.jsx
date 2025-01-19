@@ -3,17 +3,28 @@ import { MapPin, Clock, Phone, X, Eye, Check, ChevronDown, PhoneCall } from 'luc
 import Navbar from '../../Components/Navbar';
 import { axiosBookingInstance } from '../../axiosInstance';
 import { toast } from 'react-toastify';
+import { useAuth } from '../../authContext';
+import { useNavigate } from 'react-router-dom';
 
 const DriverDashboard = () => {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [requests, setRequests] = useState([]);
-
+  const { isLoggedIn, role } = useAuth()
+  const navigate = useNavigate()
   useEffect(() => {
+    if(!isLoggedIn || role != "driver"){
+         navigate("/")
+    }
     async function fetchDriverRequests() {
-      const userId = JSON.parse(localStorage.getItem("userInfo"))._id;
-      const { data } = await axiosBookingInstance.get(`/${userId}`);
-      setRequests(data.bookings);
+      try {
+        const userId = JSON.parse(localStorage.getItem("userInfo"))?._id;
+        const { data } = await axiosBookingInstance.get(`/${userId}`);
+        setRequests(data.bookings);
+      } catch (err) {
+       console.log(err)
+      }
+
     }
     fetchDriverRequests();
   }, []);

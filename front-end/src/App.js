@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import './app.css'
 
 import HomedPage from './Pages/UserSide/HomedPage';
@@ -11,9 +11,12 @@ import { axiosUserInstance } from './axiosInstance';
 import UserProfileModal from './Components/Profile';
 import AmbulanceListing from './Components/AmbulanceListing';
 import DriverDashboard from './Pages/UserSide/DriverDashboard';
+import ContactPage from './Pages/UserSide/Contact';
 
 const App = ({ isAdmin = true }) => {
-   const {isLoggedIn , login ,logout } = useAuth()
+   const {isLoggedIn , login ,logout , role} = useAuth()
+   const navigate = useNavigate()
+  
   useEffect(()=>{
     async function validateToken(){
      try{
@@ -21,7 +24,7 @@ const App = ({ isAdmin = true }) => {
       if(token){
         console.log(token)
         const {data} = await axiosUserInstance.post('/validate/token',{
-          token  
+          token 
         })
         if(data){
           console.log(data)
@@ -37,7 +40,7 @@ const App = ({ isAdmin = true }) => {
   },[])
  
   return (
-    <BrowserRouter>
+       <>
          <Routes>
           <Route  element={<HomedPage/>} path='/'/>
           <Route element={<AuthPage isLogin={true}/>} path='/login'/>
@@ -46,6 +49,7 @@ const App = ({ isAdmin = true }) => {
           <Route element={<AdminDashboard/>} path='/admin' />
           <Route element={<AmbulanceListing/>} path='/available' />
           <Route element={<DriverDashboard/>} path='/driver/requests'/>
+         <Route element={<ContactPage/>} path='/contact'/>
          </Routes>
          <ToastContainer
         position="top-right"
@@ -59,7 +63,7 @@ const App = ({ isAdmin = true }) => {
         pauseOnHover
         theme="light"
       />
-      </BrowserRouter>
+      </>
   );
 };
 

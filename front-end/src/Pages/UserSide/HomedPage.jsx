@@ -12,7 +12,7 @@ function HomedPage() {
       {/* Hero Section */}
       <div className="pt-16">
         <div className="relative bg-red-50 overflow-hidden">
-          <div className="container mx-auto px-4 py-16 lg:py-24">
+          <div className="container mx-auto px-10 py-16 lg:py-24">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-8">
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight animate-fade-in">
@@ -34,9 +34,9 @@ function HomedPage() {
               </div>
               
               <div className="lg:block relative animate-float">
-                <div className="aspect-w-16 aspect-h-9 bg-white rounded-lg shadow-xl p-6">
+                <div className="aspect-w-16 aspect-h-9  ">
                   <img
-                    src="/api/placeholder/800/600"
+                    src="/homeimge.png"
                     alt="Ambulance service"
                     className="rounded-lg object-cover"
                   />
