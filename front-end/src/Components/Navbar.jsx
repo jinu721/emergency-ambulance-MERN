@@ -22,7 +22,7 @@ function Navbar() {
         console.log(localStorage.getItem("userInfo"))
     }else{
         setNavItems( [
-            { name: 'Home', href: '#' },
+            { name: 'Home', href: '/' },
             { name: 'Signup', href: '/signup' },
             { name: 'Login', href: '/login' },
             { name: 'Contact', href: '#contact' }
