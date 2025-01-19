@@ -21,9 +21,9 @@ const AmbulanceListing = () => {
       setAmbulances(() => {
         return data.ambulances.filter((x) => x.isAvailable)
       })
+     
     }
     fetchAmbulances()
-
   }, [])
 
   // Dummy ambulance data
@@ -72,6 +72,9 @@ const AmbulanceListing = () => {
       }
       console.log( JSON.parse(userInfo))
       const userId = JSON.parse(userInfo)._id
+      if(!userId){
+         return toast.error("Login First For booking ")
+      }
       let data = {
         user:userId,
         dropLocation: {
@@ -84,6 +87,8 @@ const AmbulanceListing = () => {
       }
       const response = await axiosBookingInstance.post(`/`, {data })
       console.log(response)
+      setIsDialogOpen(false)
+      toast.success("Your Requests Submitted")
     } catch (err) {
       console.log(err)
     }

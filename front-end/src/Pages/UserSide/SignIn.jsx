@@ -96,7 +96,8 @@ const AuthPage = () => {
                 }
 
             } catch (err) {
-                toast.error("Somethings Went Wrong. Please Try Later ...")
+                console.log(err)
+                toast.error(err.response.data.message || "Something went wrong")
             }
 
         }

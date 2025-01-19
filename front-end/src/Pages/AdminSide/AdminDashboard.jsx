@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from 'react'
+import React, { use, useEffect, useRef, useState } from 'react'
 import {
     Ambulance,
     ClipboardCheck,
@@ -11,8 +11,9 @@ import {
     Edit,
     Trash2,
     Plus,
+    UserRoundPen,
 } from 'lucide-react';
-import { axiosAdminInstance, axiosAmbulanceInstance, axiosDriverInsance, axiosUserInstance } from '../../axiosInstance';
+import { axiosAdminInstance, axiosAmbulanceInstance, axiosBookingInstance, axiosDriverInsance, axiosUserInstance } from '../../axiosInstance';
 import axios from 'axios';
 import { useAsyncError, useFetcher } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -22,8 +23,8 @@ function AdminDashboard() {
     const [activeMenu, setActiveMenu] = useState('dashboard');
     const [isAdmin, setIsAdmin] = useState(true);
     const [showAddAmbulance, setShowAddAmbulance] = useState(false);
-    const [ambulanceNumber,setAmbulanceNumber] = useState('')
-    const [ambulances,setAmbulances]=useState([])
+    const [ambulances, setAmbulances] = useState([])
+    const [reload, setReload] = useState(false)
     const [stats, setStats] = useState({
         users: 152,
         drivers: 45,
@@ -32,17 +33,19 @@ function AdminDashboard() {
     })
     const [requests, setRequests] = useState([])
     const [users, setUsers] = useState([])
-    const [ambulanceType,setAmbulanceType] = useState("basic")
-    const [driver,setDriver] = useState()
-
+    const [ambulanceType, setAmbulanceType] = useState("basic")
+    const ambulanceNumber = useRef()
+    const driver = useRef()
     useEffect(() => {
         async function fetchStats() {
             const { data } = await axiosAdminInstance.get('/stats')
             setStats(data.stats)
         }
         async function fetchRequests() {
-            const { data } = await axiosAdminInstance.get('/requests')
-            setRequests(data.requests)
+            const { data } = await axiosBookingInstance.get('/')
+            console.log("booking")
+            console.log(data)
+            setRequests(data.bookings)
         }
         async function fetchUsers() {
             const { data } = await axiosUserInstance.get('/')
@@ -54,11 +57,12 @@ function AdminDashboard() {
             setAmbulances(data.ambulances)
         }
 
-        fetchStats()
+       // fetchStats()
         fetchRequests()
         fetchUsers()
         fetchAmbulances()
-    }, [])
+    }, [reload])
+
     const handleDriverToggle = async (userId, isDriver) => {
         console.log("ahasdfasdf")
         let role = isDriver ? "user" : "driver"
@@ -71,55 +75,34 @@ function AdminDashboard() {
 
     };
 
-    const handleAmbulanceAdd = async ()=>{
-        let driverId = ""
-       for(let user of users){
-        if(user.email == driver && user.role == "driver"){
-            driverId = user._id
-        } 
-       }
-       console.log(driverId)
-       if(driverId){
-        const response = await axiosAmbulanceInstance.post('/',{
-            numberPlate:ambulanceNumber,
-            type:ambulanceType,
-            driverId:driverId
-        })
-        if(response.data){
-            console.log()
+    const handleAmbulanceAdd = async () => {
+        try {
+            let driverId = ""
+            for (let user of users) {
+                if (user.email == driver.current.value && user.role == "driver") {
+                    driverId = user._id
+                }
+            }
+            console.log(driverId)
+            if (driverId) {
+                const response = await axiosAmbulanceInstance.post('/', {
+                    numberPlate: ambulanceNumber.current.value,
+                    type: ambulanceType,
+                    driverId: driverId
+                })
+                setShowAddAmbulance(false)
+                setReload(!reload)
+
+            } else {
+                toast.error("There is not such a Driver")
+            }
+        } catch (err) {
+            toast.error("Something went wrong")
         }
-       }else{
-        toast.error("There is not such a Driver")
-       }
-       
-       
+
+
     }
 
-    // Example data
-    // const stats = {
-    //     users: 152,
-    //     drivers: 45,
-    //     requests: 102,
-    //     completedRequests: 89
-    // };
-
-    // const users = [
-    //     { id: 1, name: "John Smith", email: "john@example.com",hello:"asdf", phone: "123-456-7890", joinDate: "2024-01-15" },
-    //     { id: 2, name: "Sarah Johnson", email: "sarah@example.com", phone: "234-567-8901", joinDate: "2024-01-14" },
-    //     { id: 3, name: "Mike Wilson", email: "mike@example.com", phone: "345-678-9012", joinDate: "2024-01-13" },
-    // ];
-
-    // const ambulances = [
-    //     { id: 1, number: "AMB-001", status: "Available", type: "Basic Life Support", lastMaintenance: "2024-01-15" },
-    //     { id: 2, number: "AMB-002", status: "In Service", type: "Advanced Life Support", lastMaintenance: "2024-01-14" },
-    //     { id: 3, number: "AMB-003", status: "Maintenance", type: "Basic Life Support", lastMaintenance: "2024-01-13" },
-    // ];
-
-    // const requests = [
-    //     { id: 1, name: "John Smith", location: "123 Main St", status: "Pending", timestamp: "2025-01-17 13:45" },
-    //     { id: 2, name: "Sarah Johnson", location: "456 Park Ave", status: "Accepted", timestamp: "2025-01-17 13:30" },
-    //     { id: 3, name: "Mike Wilson", location: "789 Oak Rd", status: "Completed", timestamp: "2025-01-17 13:15" },
-    // ];
 
     const menuItems = isAdmin ? [
         { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -218,22 +201,21 @@ function AdminDashboard() {
                                 <td className="p-4">{user.name}</td>
                                 <td className="p-4">{user.email}</td>
                                 <td className="p-4">{user.phone}</td>
-                                <td className="p-4">{user.joinDate}</td>
+                                <td className="p-4">{new Date(user.createdAt).toLocaleDateString()}</td>
                                 <td className="p-4">
-                                    <div className="relative inline-block w-12 mr-2 align-middle select-none"
-                                        onClick={() => handleDriverToggle(user._id, user.role == "driver")}>
+                                    <div className="flex items-center">
                                         <input
                                             type="checkbox"
-                                            checked={user.role == "driver"}
-                                            onChange={() => handleDriverToggle(user._id, user.role == "driver")}
-                                            className="peer hidden"
-                                            id={`toggle-${user._id}`}
+                                            checked={user.role === "driver"}
+                                            onChange={() => handleDriverToggle(user._id, user.role === "driver")}
+                                            id={`checkbox-${user._id}`}
+                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
                                         />
                                         <label
-                                            htmlFor={`toggle-${user.id}`}
-                                            className="block h-6 overflow-hidden rounded-full bg-gray-300 cursor-pointer peer-checked:bg-blue-500"
+                                            htmlFor={`checkbox-${user._id}`}
+                                            className="ml-2 text-sm font-medium text-gray-900 cursor-pointer"
                                         >
-                                            <span className="absolute block h-4 w-4 rounded-full bg-white top-1 left-1 transition-transform duration-200 ease-in-out peer-checked:translate-x-6" />
+                                            Driver
                                         </label>
                                     </div>
                                 </td>
@@ -274,7 +256,7 @@ function AdminDashboard() {
                                 <th className="text-left p-4">Number</th>
                                 <th className="text-left p-4">Type</th>
                                 <th className="text-left p-4">Status</th>
-                                <th className="text-left p-4">Last Maintenance</th>
+                                <th className="text-left p-4">Driver</th>
                                 <th className="text-left p-4">Actions</th>
                             </tr>
                         </thead>
@@ -285,14 +267,14 @@ function AdminDashboard() {
                                     <td className="p-4">{ambulance.numberPlate}</td>
                                     <td className="p-4">{ambulance.type}</td>
                                     <td className="p-4">
-                                        <span className={`px-2 py-1 rounded-full text-sm ${ambulance.isAvailable  ? 'bg-green-100 text-green-800' :
+                                        <span className={`px-2 py-1 rounded-full text-sm ${ambulance.isAvailable ? 'bg-green-100 text-green-800' :
                                             ambulance.status === 'In Service' ? 'bg-blue-100 text-blue-800' :
                                                 'bg-yellow-100 text-yellow-800'
                                             }`}>
-                                           {ambulance.isAvailable? "Available" : "In Service"}
+                                            {ambulance.isAvailable ? "Available" : "In Service"}
                                         </span>
                                     </td>
-                                    <td className="p-4">{ambulance.lastMaintenance}</td>
+                                    <td className="p-4">{ambulance.driverId.name}</td>
                                     <td className="p-4">
                                         <button className="text-blue-600 hover:text-blue-800 mr-2">
                                             <Edit size={18} />
@@ -314,42 +296,41 @@ function AdminDashboard() {
                         <h2 className="text-xl font-semibold">Add New Ambulance</h2>
                     </div>
                     <div className="p-6">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Ambulance Number</label>
-                                <input type="text" value={ambulanceNumber} onChange={(e)=>setAmbulanceNumber(e.target.value)}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Ambulance Number</label>
+                            <input type="text" ref={ambulanceNumber}
                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">User Email</label>
-                                <input type="text" value={driver} onChange={(e)=>{setDriver(e.target.value)}}
-                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Type</label>
-                                <select className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" value={ambulanceType} 
-                                 onChange={(e)=>{setAmbulanceType(e.target.value)}}
-                                >
-                                    <option value="basic" >Basic Life Support</option>
-                                    <option value="advanced" >Advanced Life Support</option>
-                                </select>
-                            </div>
-                            <div className="flex justify-end space-x-3">
-                                <button
-                                    type="button"
-                                    onClick={() => setShowAddAmbulance(false)}
-                                    className="px-4 py-2 border rounded-md text-gray-600 hover:bg-gray-50"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    onClick={handleAmbulanceAdd}
-                                    type="submit"
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                                >
-                                    Add Ambulance
-                                </button>
-                            </div>
-                     
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Driver Email</label>
+                            <input type="text" ref={driver}
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Type</label>
+                            <select className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" value={ambulanceType}
+                                onChange={(e) => { setAmbulanceType(e.target.value) }}
+                            >
+                                <option value="basic" >Basic Life Support</option>
+                                <option value="advanced" >Advanced Life Support</option>
+                            </select>
+                        </div>
+                        <div className="flex justify-end space-x-3">
+                            <button
+                                type="button"
+                                onClick={() => setShowAddAmbulance(false)}
+                                className="px-4 py-2 border rounded-md text-gray-600 hover:bg-gray-50"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleAmbulanceAdd}
+                                type="submit"
+                                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                            >
+                                Add Ambulance
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
@@ -369,11 +350,11 @@ function AdminDashboard() {
                 </tr>
             </thead>
             <tbody>
-                {requests.map((request) => (
+                {requests.map((request,idx) => (
                     <tr key={request.id} className="border-b">
-                        <td className="p-4">#{request.id}</td>
-                        <td className="p-4">{request.name}</td>
-                        <td className="p-4">{request.location}</td>
+                        <td className="p-4">#{idx+1}</td>
+                        <td className="p-4">{request.user.name}</td>
+                        <td className="p-4">{request.dropLocation.city}</td>
                         <td className="p-4">
                             <span className={`px-2 py-1 rounded-full text-sm ${request.status === 'Completed' ? 'bg-green-100 text-green-800' :
                                 request.status === 'Accepted' ? 'bg-blue-100 text-blue-800' :
@@ -382,7 +363,7 @@ function AdminDashboard() {
                                 {request.status}
                             </span>
                         </td>
-                        <td className="p-4">{request.timestamp}</td>
+                        <td className="p-4">{new Date(request.createdAt).toDateString()}</td>
                         <td className="p-4">
                             <button className="text-blue-600 hover:text-blue-800 mr-2">
                                 View

@@ -10,6 +10,7 @@ import AdminDashboard from './Pages/AdminSide/AdminDashboard';
 import { axiosUserInstance } from './axiosInstance';
 import UserProfileModal from './Components/Profile';
 import AmbulanceListing from './Components/AmbulanceListing';
+import DriverDashboard from './Pages/UserSide/DriverDashboard';
 
 const App = ({ isAdmin = true }) => {
    const {isLoggedIn , login ,logout } = useAuth()
@@ -20,12 +21,11 @@ const App = ({ isAdmin = true }) => {
       if(token){
         console.log(token)
         const {data} = await axiosUserInstance.post('/validate/token',{
-          token   
-        
+          token  
         })
         if(data){
           console.log(data)
-          login(data.role)
+          login(data.decoded.role)
         }
       }
      }catch(err){
@@ -45,6 +45,7 @@ const App = ({ isAdmin = true }) => {
           <Route element={<UserProfileModal/>} path='/profile' />
           <Route element={<AdminDashboard/>} path='/admin' />
           <Route element={<AmbulanceListing/>} path='/available' />
+          <Route element={<DriverDashboard/>} path='/driver/requests'/>
          </Routes>
          <ToastContainer
         position="top-right"

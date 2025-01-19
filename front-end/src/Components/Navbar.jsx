@@ -7,14 +7,14 @@ import UserProfileModal from './Profile';
 function Navbar() {
     const navigate = useNavigate()
      const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const {isLoggedIn}  = useAuth()
+    const {isLoggedIn ,role}  = useAuth()
     const [navItems,setNavItems] = useState([])
     const [showProfile,setShowProfile]=useState(false)
     const [userData,setUserData] = useState({})
     useEffect(()=>{
     if(isLoggedIn){
         setNavItems( [
-            { name: 'Home', href: '#' },
+            { name: 'Home', href: '/' },
             { name: 'Contact', href: '#contact' }
         ])
         let user =JSON.parse(localStorage.getItem("userInfo"))
@@ -60,6 +60,22 @@ function Navbar() {
                  Profile
                </a>
               )}
+              {(isLoggedIn && role == "driver") && (
+                 <a
+                 onClick={()=>navigate("/driver/requests")}
+                 className="text-gray-600 hover:text-red-600 transition-colors duration-300"
+                >
+                 My Requests
+               </a>
+              )}
+              {role == "admin"&& (
+                 <a
+                 onClick={()=>navigate("/admin")}
+                 className="text-gray-600 hover:text-red-600 transition-colors duration-300"
+                >
+                 Admin Panel
+               </a>
+              )}
               <button onClick={()=>{navigate("/available")}}className="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition-colors duration-300">
               Available Ambulances
               </button>
@@ -75,6 +91,7 @@ function Navbar() {
               ) : (
                 <Menu className="h-6 w-6 text-gray-600" />
               )}
+              
             </button>
           </div>
         </div>
@@ -95,6 +112,30 @@ function Navbar() {
                 {item.name}
               </a>
             ))}
+             {isLoggedIn && (
+                 <a
+                 onClick={()=>setShowProfile(true)}
+                 className="block py-2 text-gray-600 hover:text-red-600 transition-colors duration-300"
+                >
+                 Profile
+               </a>
+              )}
+              {(isLoggedIn && role == "driver") && (
+                 <a
+                 onClick={()=>navigate("/driver/requests")}
+                 className="block py-2 text-gray-600 hover:text-red-600 transition-colors duration-300"
+                >
+                 My Requests
+               </a>
+              )}
+              {role == "admin"&& (
+                 <a
+                 onClick={()=>navigate("/admin")}
+                 className="block py-2 text-gray-600 hover:text-red-600 transition-colors duration-300"
+                >
+                 Admin Panel
+               </a>
+              )}
             <button className="w-full bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition-colors duration-300">
               Available Ambulances
             </button>

@@ -18,7 +18,7 @@ class BookingService {
     }
     static async getBookings() {
         try {
-            return await bookingModel_1.default.find();
+            return await bookingModel_1.default.find().populate("user");
         }
         catch (err) {
             console.log(err);
@@ -27,7 +27,7 @@ class BookingService {
     }
     static async getBookingById(driverId) {
         try {
-            const booking = await bookingModel_1.default.find({ driverId });
+            const booking = await bookingModel_1.default.find({ driverId }).populate("user").populate("ambulance");
             if (!booking)
                 throw new Error('Booking not found');
             return booking;
