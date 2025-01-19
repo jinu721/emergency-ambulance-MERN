@@ -12,7 +12,7 @@ class AmbulanceService {
         return ambulance;
     }
     static async getAllAmbulances() {
-        return await ambulanceModel_1.default.find();
+        return await ambulanceModel_1.default.find().populate("driverId");
     }
     static async getAmbulanceById(ambulanceId) {
         const ambulance = await ambulanceModel_1.default.findById(ambulanceId);

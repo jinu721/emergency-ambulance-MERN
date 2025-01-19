@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { Ambulance, Clock, MapPin, Menu, Phone, X } from 'lucide-react';
 import { useAuth } from '../authContext';
+import { useNavigate } from 'react-router-dom';
+import UserProfileModal from './Profile';
 
 function Navbar() {
+    const navigate = useNavigate()
      const [isMenuOpen, setIsMenuOpen] = useState(false);
     const {isLoggedIn}  = useAuth()
     const [navItems,setNavItems] = useState([])
+    const [showProfile,setShowProfile]=useState(false)
+    const [userData,setUserData] = useState({})
     useEffect(()=>{
     if(isLoggedIn){
         setNavItems( [
             { name: 'Home', href: '#' },
-            { name :"Profile" , href : "/profile"},
             { name: 'Contact', href: '#contact' }
         ])
+        let user =JSON.parse(localStorage.getItem("userInfo"))
+        setUserData(user)
+        console.log(localStorage.getItem("userInfo"))
     }else{
         setNavItems( [
             { name: 'Home', href: '#' },
@@ -45,8 +52,16 @@ function Navbar() {
                   {item.name}
                 </a>
               ))}
-              <button className="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition-colors duration-300">
-                Emergency Call
+              {isLoggedIn && (
+                 <a
+                 onClick={()=>setShowProfile(true)}
+                 className="text-gray-600 hover:text-red-600 transition-colors duration-300"
+                >
+                 Profile
+               </a>
+              )}
+              <button onClick={()=>{navigate("/available")}}className="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition-colors duration-300">
+              Available Ambulances
               </button>
             </div>
 
@@ -81,11 +96,15 @@ function Navbar() {
               </a>
             ))}
             <button className="w-full bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition-colors duration-300">
-              Emergency Call
+              Available Ambulances
             </button>
+           
           </div>
         </div>
       </nav>
+      {
+        <UserProfileModal isOpen={showProfile} onClose={()=>setShowProfile(false)} user={userData}/>
+      }
     </div>
   )
 }

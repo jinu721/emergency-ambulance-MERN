@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
 
 const UserProfileModal = ({ user, isOpen = true, onClose }) => {
   if (!isOpen) return null;
-
+  
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md mx-4 relative">
@@ -40,7 +40,7 @@ const UserProfileModal = ({ user, isOpen = true, onClose }) => {
             
             <div>
               <label className="text-sm text-gray-500">Joined Date</label>
-              <p className="text-lg">{user?.joinDate}</p>
+              <p className="text-lg">{new Date(user.createdAt).toLocaleString()}</p>
             </div>
           </div>
         </div>

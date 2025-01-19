@@ -12,3 +12,6 @@ export const axiosDriverInsance = axios.create({
 export const axiosAmbulanceInstance = axios.create({
     baseURL: `${BACKEND_BASE_URI}/api/ambulances`
 })
+export const axiosBookingInstance = axios.create({
+    baseURL: `${BACKEND_BASE_URI}/api/bookings`
+})

@@ -9,16 +9,30 @@ import {  useAuth } from './authContext';
 import AdminDashboard from './Pages/AdminSide/AdminDashboard';
 import { axiosUserInstance } from './axiosInstance';
 import UserProfileModal from './Components/Profile';
+import AmbulanceListing from './Components/AmbulanceListing';
 
 const App = ({ isAdmin = true }) => {
-   const {isLoggedIn , login } = useAuth()
+   const {isLoggedIn , login ,logout } = useAuth()
   useEffect(()=>{
     async function validateToken(){
-
+     try{
       const token = localStorage.getItem("token")
       if(token){
-        const {data} = await axiosUserInstance.post('/validate-token')
+        const {data} = await axiosUserInstance.post('/validate/token',{
+          headers: {
+            Authorization: `Bearer ${token}`
+        }    
+        
+        })
+        if(data){
+          console.log(data)
+          login(data.role)
+        }
       }
+     }catch(err){
+        logout()
+     }
+     
     }
     validateToken()
   },[])
@@ -31,6 +45,7 @@ const App = ({ isAdmin = true }) => {
           <Route element={<AuthPage isLogin={false}/>} path='/signup' />
           <Route element={<UserProfileModal/>} path='/profile' />
           <Route element={<AdminDashboard/>} path='/admin' />
+          <Route element={<AmbulanceListing/>} path='/available' />
          </Routes>
          <ToastContainer
         position="top-right"

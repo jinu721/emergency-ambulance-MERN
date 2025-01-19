@@ -13,7 +13,7 @@ class AmbulanceController {
 
   static async getAllAmbulances(req: Request, res: Response) {
     try {
-      const ambulances = await AmbulanceService.getAllAmbulances();
+      const ambulances = await AmbulanceService.getAllAmbulances()
       res.status(200).json({ ambulances });
     } catch (error:any) {
       res.status(500).json({ message: error.message });
