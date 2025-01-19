@@ -52,10 +52,10 @@ class UserService {
             throw err;
         }
     }
-    static async validateToken(authorization) {
+    static async validateToken(token) {
         try {
-            if (authorization) {
-                const token = authorization.slice(7, authorization.length);
+            if (token) {
+                // const token = authorization.slice(7, authorization.length);
                 const decoded = jsonwebtoken_1.default.verify(token, 'symteron3737');
                 return decoded;
             }

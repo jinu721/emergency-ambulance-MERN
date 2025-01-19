@@ -18,10 +18,9 @@ const App = ({ isAdmin = true }) => {
      try{
       const token = localStorage.getItem("token")
       if(token){
+        console.log(token)
         const {data} = await axiosUserInstance.post('/validate/token',{
-          headers: {
-            Authorization: `Bearer ${token}`
-        }    
+          token   
         
         })
         if(data){

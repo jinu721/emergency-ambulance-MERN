@@ -7,7 +7,8 @@ const bookingService_1 = __importDefault(require("../services/bookingService"));
 class BookingController {
     static async createBooking(req, res) {
         try {
-            const booking = await bookingService_1.default.createBooking(req.body);
+            console.log(req.body.data);
+            const booking = await bookingService_1.default.createBooking(req.body.data);
             res.status(201).json({ booking });
         }
         catch (error) {
@@ -25,8 +26,8 @@ class BookingController {
     }
     static async getBookingById(req, res) {
         try {
-            const booking = await bookingService_1.default.getBookingById(req.params.id);
-            res.status(200).json({ booking });
+            const bookings = await bookingService_1.default.getBookingById(req.params.id);
+            res.status(200).json({ bookings });
         }
         catch (error) {
             res.status(500).json({ message: error.message });

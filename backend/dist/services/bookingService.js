@@ -6,29 +6,59 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bookingModel_1 = __importDefault(require("../models/bookingModel"));
 class BookingService {
     static async createBooking(bookingData) {
-        const booking = new bookingModel_1.default(bookingData);
-        await booking.save();
-        return booking;
+        try {
+            const booking = new bookingModel_1.default(bookingData);
+            await booking.save();
+            return booking;
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
     }
     static async getBookings() {
-        return await bookingModel_1.default.find();
+        try {
+            return await bookingModel_1.default.find();
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
     }
-    static async getBookingById(bookingId) {
-        const booking = await bookingModel_1.default.findById(bookingId);
-        if (!booking)
-            throw new Error('Booking not found');
-        return booking;
+    static async getBookingById(driverId) {
+        try {
+            const booking = await bookingModel_1.default.find({ driverId });
+            if (!booking)
+                throw new Error('Booking not found');
+            return booking;
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
     }
     static async updateBooking(bookingId, updateData) {
-        const updatedBooking = await bookingModel_1.default.findByIdAndUpdate(bookingId, updateData, { new: true });
-        if (!updatedBooking)
-            throw new Error('Booking not found');
-        return updatedBooking;
+        try {
+            const updatedBooking = await bookingModel_1.default.findByIdAndUpdate(bookingId, updateData, { new: true });
+            if (!updatedBooking)
+                throw new Error('Booking not found');
+            return updatedBooking;
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
     }
     static async cancelBooking(bookingId) {
-        const cancelledBooking = await bookingModel_1.default.findByIdAndDelete(bookingId);
-        if (!cancelledBooking)
-            throw new Error('Booking not found');
+        try {
+            const cancelledBooking = await bookingModel_1.default.findByIdAndDelete(bookingId);
+            if (!cancelledBooking)
+                throw new Error('Booking not found');
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
     }
 }
 exports.default = BookingService;

@@ -2,30 +2,55 @@ import BookingModel from '../models/bookingModel';
 
 class BookingService {
   static async createBooking(bookingData: any) {
-    const booking = new BookingModel(bookingData);
-    await booking.save();
-    return booking;
+    try{
+      const booking = new BookingModel(bookingData);
+      await booking.save();
+      return booking;
+    }catch(err){
+      console.log(err);
+      throw err;
+    }
   }
 
   static async getBookings() {
-    return await BookingModel.find();
+    try{
+      return await BookingModel.find();
+    }catch(err){
+      console.log(err);
+      throw err;
+    }
   }
 
-  static async getBookingById(bookingId: string) {
-    const booking = await BookingModel.findById(bookingId);
-    if (!booking) throw new Error('Booking not found');
-    return booking;
+  static async getBookingById(driverId: string) {
+    try{
+      const booking = await BookingModel.find({driverId});
+      if (!booking) throw new Error('Booking not found');
+      return booking;
+    }catch(err){
+      console.log(err);
+      throw err;
+    }
   }
 
   static async updateBooking(bookingId: string, updateData: any) {
-    const updatedBooking = await BookingModel.findByIdAndUpdate(bookingId, updateData, { new: true });
-    if (!updatedBooking) throw new Error('Booking not found');
-    return updatedBooking;
+    try{
+      const updatedBooking = await BookingModel.findByIdAndUpdate(bookingId, updateData, { new: true });
+      if (!updatedBooking) throw new Error('Booking not found');
+      return updatedBooking;
+    }catch(err){
+      console.log(err);
+      throw err;
+    }
   }
 
   static async cancelBooking(bookingId: string) {
-    const cancelledBooking = await BookingModel.findByIdAndDelete(bookingId);
-    if (!cancelledBooking) throw new Error('Booking not found');
+    try{
+      const cancelledBooking = await BookingModel.findByIdAndDelete(bookingId);
+      if (!cancelledBooking) throw new Error('Booking not found');
+    }catch(err){
+      console.log(err);
+      throw err;
+    }
   }
 }
 

@@ -33,9 +33,10 @@ class UserController {
 
   static async validateToken(req: Request, res: Response) {
     try {
-      const authorization: string | null = req.headers.authorization || null;
-      console.log(authorization) 
-      const decoded = await UserService.validateToken(authorization);
+      console.log(req.body)
+      const token: string = req.body.token;
+      console.log(token) 
+      const decoded = await UserService.validateToken(token);
       res.status(200).json({ decoded });
     } catch (error: any) {
       console.log(error);

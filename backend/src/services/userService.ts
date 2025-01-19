@@ -48,10 +48,10 @@ class UserService {
     }
   }
 
-  static async validateToken(authorization: string | null): Promise<void> {
+  static async validateToken(token: string | null): Promise<void> {
     try {
-      if (authorization) {
-        const token = authorization.slice(7, authorization.length);
+      if (token) {
+        // const token = authorization.slice(7, authorization.length);
         const decoded = jwt.verify(token, 'symteron3737');
         return decoded as any;
       } else {
