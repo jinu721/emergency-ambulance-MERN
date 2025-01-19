@@ -18,6 +18,15 @@ app.use(cors());
 app.use(express.json()); 
 app.use(morgan('dev')); 
 
+// const corsOptions = {
+//     origin: ['http://localhost:3000','http://localhost:3001'],
+//     methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH','HEAD','OPTION'],
+//     allowedHeaders: ['Content-Type', 'Authorization'], 
+//     credentials: true
+//   };
+  
+//   app.use(cors(corsOptions));
+
 // app.use(authMiddleware);
 
 app.use('/api/ambulances', ambulanceRoutes);

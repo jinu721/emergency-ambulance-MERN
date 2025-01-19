@@ -73,14 +73,14 @@ const AmbulanceListing = () => {
       console.log( JSON.parse(userInfo))
       const userId = JSON.parse(userInfo)._id
       let data = {
-        userId:userId,
+        user:userId,
         dropLocation: {
           street,
           phone,
           city
         },
         ambulance: selectedAmbulance._id,
-        driverId: selectedAmbulance.driverId
+        driverId: selectedAmbulance.driverId._id
       }
       const response = await axiosBookingInstance.post(`/`, {data })
       console.log(response)

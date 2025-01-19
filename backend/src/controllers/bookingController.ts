@@ -4,7 +4,8 @@ import BookingService from '../services/bookingService';
 class BookingController {
   static async createBooking(req: Request, res: Response) {
     try {
-      const booking = await BookingService.createBooking(req.body);
+      console.log(req.body.data)
+      const booking = await BookingService.createBooking(req.body.data);
       res.status(201).json({ booking });
     } catch (error:any) {
       res.status(500).json({ message: error.message });
@@ -22,8 +23,8 @@ class BookingController {
 
   static async getBookingById(req: Request, res: Response) {
     try {
-      const booking = await BookingService.getBookingById(req.params.id);
-      res.status(200).json({ booking });
+      const bookings = await BookingService.getBookingById(req.params.id);
+      res.status(200).json({ bookings });
     } catch (error:any) {
       res.status(500).json({ message: error.message });
     }
