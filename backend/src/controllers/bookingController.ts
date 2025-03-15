@@ -20,6 +20,15 @@ class BookingController {
       res.status(500).json({ message: error.message });
     }
   }
+  static async getBookingsByUser(req: Request, res: Response) {
+    try {
+      const {userId} = req.params;
+      const bookings = await BookingService.getBookingsByUser(userId);
+      res.status(200).json({ bookings });
+    } catch (error:any) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 
   static async getBookingById(req: Request, res: Response) {
     try {
@@ -34,6 +43,22 @@ class BookingController {
     try {
       const updatedBooking = await BookingService.updateBooking(req.params.id, req.body);
       res.status(200).json({ updatedBooking });
+    } catch (error:any) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+  static async acceptBooking(req: Request, res: Response) {
+    try {
+      const acceptBooking = await BookingService.acceptBooking(req.params.id);
+      res.status(200).json({ acceptBooking });
+    } catch (error:any) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+  static async rejectBooking(req: Request, res: Response) {
+    try {
+      const rejectBooking = await BookingService.rejectBooking(req.params.id);
+      res.status(200).json({ rejectBooking });
     } catch (error:any) {
       res.status(500).json({ message: error.message });
     }

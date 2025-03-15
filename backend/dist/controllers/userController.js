@@ -25,6 +25,17 @@ class UserController {
             res.status(500).json({ message: error.message });
         }
     }
+    static async changePassword(req, res) {
+        try {
+            const { userId, oldPassword, newPassword } = req.body;
+            await userService_1.default.changePassword(userId, oldPassword, newPassword);
+            res.status(200).json({ message: 'Password changed successfully' });
+        }
+        catch (error) {
+            console.log(error);
+            res.status(500).json({ message: error.message });
+        }
+    }
     static async loginUser(req, res) {
         try {
             const { user, token } = await userService_1.default.loginUser(req.body);

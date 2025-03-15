@@ -12,6 +12,8 @@ import UserProfileModal from './Components/Profile';
 import AmbulanceListing from './Components/AmbulanceListing';
 import DriverDashboard from './Pages/UserSide/DriverDashboard';
 import ContactPage from './Pages/UserSide/Contact';
+import ProfilePage from './Pages/UserSide/ProfilePage';
+import AboutPage from './Pages/UserSide/About';
 
 const App = ({ isAdmin = true }) => {
    const {isLoggedIn , login ,logout , role} = useAuth()
@@ -45,11 +47,13 @@ const App = ({ isAdmin = true }) => {
           <Route  element={<HomedPage/>} path='/'/>
           <Route element={<AuthPage isLogin={true}/>} path='/login'/>
           <Route element={<AuthPage isLogin={false}/>} path='/signup' />
-          <Route element={<UserProfileModal/>} path='/profile' />
+          <Route element={<ProfilePage/>} path='/profile' />
           <Route element={<AdminDashboard/>} path='/admin' />
           <Route element={<AmbulanceListing/>} path='/available' />
           <Route element={<DriverDashboard/>} path='/driver/requests'/>
          <Route element={<ContactPage/>} path='/contact'/>
+         <Route element={<AboutPage/>} path='/about'/>
+         {/* <Route element={<ProfilePage/>} path='/profile1'/> */}
          </Routes>
          <ToastContainer
         position="top-right"

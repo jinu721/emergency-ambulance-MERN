@@ -8,12 +8,6 @@ const userSchema = new Schema<UserIF>({
   password: { type: String, required: true },
   role: { type: String, enum: ['user', 'admin', 'driver'], default: 'user' },
   isVerified: { type: Boolean, default: false },
-  // address: {
-  //   street: { type: String },
-  //   city: { type: String },
-  //   state: { type: String },
-  //   zipCode: { type: String },
-  // },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });

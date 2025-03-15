@@ -24,6 +24,16 @@ class BookingController {
             res.status(500).json({ message: error.message });
         }
     }
+    static async getBookingsByUser(req, res) {
+        try {
+            const { userId } = req.params;
+            const bookings = await bookingService_1.default.getBookingsByUser(userId);
+            res.status(200).json({ bookings });
+        }
+        catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
     static async getBookingById(req, res) {
         try {
             const bookings = await bookingService_1.default.getBookingById(req.params.id);
@@ -37,6 +47,24 @@ class BookingController {
         try {
             const updatedBooking = await bookingService_1.default.updateBooking(req.params.id, req.body);
             res.status(200).json({ updatedBooking });
+        }
+        catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+    static async acceptBooking(req, res) {
+        try {
+            const acceptBooking = await bookingService_1.default.acceptBooking(req.params.id);
+            res.status(200).json({ acceptBooking });
+        }
+        catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+    static async rejectBooking(req, res) {
+        try {
+            const rejectBooking = await bookingService_1.default.rejectBooking(req.params.id);
+            res.status(200).json({ rejectBooking });
         }
         catch (error) {
             res.status(500).json({ message: error.message });

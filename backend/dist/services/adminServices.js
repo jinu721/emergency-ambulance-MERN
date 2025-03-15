@@ -11,17 +11,8 @@ class AmbulanceService {
         await ambulance.save();
         return ambulance;
     }
-    static async getAllAmbulances(filter) {
-        let query = {};
-        if (filter && filter !== "All Types") {
-            query = {
-                $or: [
-                    { type: filter },
-                    { features: filter }
-                ]
-            };
-        }
-        return await ambulanceModel_1.default.find(query).populate("driverId");
+    static async getAllAmbulances() {
+        return await ambulanceModel_1.default.find().populate("driverId");
     }
     static async getAmbulanceById(ambulanceId) {
         const ambulance = await ambulanceModel_1.default.findById(ambulanceId);

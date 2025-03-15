@@ -25,6 +25,15 @@ class BookingService {
             throw err;
         }
     }
+    static async getBookingsByUser(userId) {
+        try {
+            return await bookingModel_1.default.find({ user: userId }).populate("user");
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
     static async getBookingById(driverId) {
         try {
             const booking = await bookingModel_1.default.find({ driverId }).populate("user").populate("ambulance");
@@ -43,6 +52,30 @@ class BookingService {
             if (!updatedBooking)
                 throw new Error('Booking not found');
             return updatedBooking;
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
+    static async acceptBooking(bookingId) {
+        try {
+            const acceptBooking = await bookingModel_1.default.findByIdAndUpdate(bookingId, { status: 'accepted' }, { new: true });
+            if (!acceptBooking)
+                throw new Error('Booking not found');
+            return acceptBooking;
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
+    static async rejectBooking(bookingId) {
+        try {
+            const rejectBooking = await bookingModel_1.default.findByIdAndUpdate(bookingId, { status: 'rejected' }, { new: true });
+            if (!rejectBooking)
+                throw new Error('Booking not found');
+            return rejectBooking;
         }
         catch (err) {
             console.log(err);

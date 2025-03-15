@@ -6,3 +6,4 @@ export const errorHandler = (err:any,req:Request,res:Response,next:NextFunction)
     const errMessage = err.message || 'Something went weong in server';
     res.status(errStatusCode).json({message:errMessage});
 }
+

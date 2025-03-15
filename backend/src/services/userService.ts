@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import UserModel from '../models/userModel';
+import UserModel from '../models/userModel.js';
 
 class UserService {
   static async getUsers() {
@@ -43,6 +43,23 @@ class UserService {
       const token = jwt.sign({ id: user._id,role:user.role }, "symteron3737", { expiresIn: '1h' });
       return {user,token};
     }catch(err){
+      console.log(err);
+      throw err;
+    }
+  }
+
+  static async changePassword(userId: string, oldPassword: string, newPassword: string) {
+    try {
+      const user = await UserModel.findById(userId);
+      if (!user) throw new Error('User not found');
+
+      const isMatch = await bcrypt.compare(oldPassword, user.password);
+      if (!isMatch) throw new Error('Old password is incorrect');
+
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.password = hashedPassword;
+      await user.save();
+    } catch (err) {
       console.log(err);
       throw err;
     }

@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celebrating Women's Day</title>
+    <style>
+        :root {
+            --primary: #9c27b0;
+            --secondary: #e91e63;
+            --accent: #ff9800;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        .hidden {
+            opacity: 0;
+            filter: blur(5px);
+            transform: translateY(100px);
+            transition: all 1s;
+        }
+        
+        .show {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateY(0);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--accent), #ffeb3b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+        
+        .cta-button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23f8f9fa" fill-opacity="1" d="M0,192L48,176C96,160,192,128,288,138.7C384,149,480,203,576,213.3C672,224,768,192,864,165.3C960,139,1056,117,1152,117.3C1248,117,1344,139,1392,149.3L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 1rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .card-text {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .quote-section {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 4rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quote-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .quote-icon {
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.2);
+            margin-bottom: 1rem;
+        }
+        
+        .quote-text {
+            font-size: 2rem;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        
+        .quote-author {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-content {
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: -15px;
+            width: 30px;
+            height: 30px;
+            background-color: white;
+            transform: rotate(45deg);
+            box-shadow: 5px -5px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: -15px;
+            width: 30px;
+            height: 30px;
+            background-color: white;
+            transform: rotate(45deg);
+            box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .timeline-date {
+            position: absolute;
+            top: 20px;
+            width: 150px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 20px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-date {
+            right: -175px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-date {
+            left: -175px;
+        }
+        
+        .timeline-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .timeline-text {
+            line-height: 1.6;
+            color: #666;
+        }
+        
+        .interactive-section {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .pledge-form {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .form-textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        .submit-button {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+        }
+        
+        .submit-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s, background-color 0.3s;
+            cursor: pointer;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-5px);
+            background-color: var(--primary);
+        }
+        
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .footer-link {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-link:hover {
+            color: white;
+        }
+        
+        .copyright {
+            color: #aaa;
+            margin-top: 2rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-content::after {
+                display: none;
+            }
+            
+            .timeline-date {
+                position: relative;
+                top: -20px;
+                left: 0 !important;
+                right: auto !important;
+                margin-bottom: 1rem;
+                width: 120px;
+            }
+            
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animation delay for elements */
+        .card:nth-child(2) {
+            transition-delay: 200ms;
+        }
+        
+        .card:nth-child(3) {
+            transition-delay: 400ms;
+        }
+        
+        .timeline-item:nth-child(2) {
+            transition-delay: 200ms;
+        }
+        
+        .timeline-item:nth-child(3) {
+            transition-delay: 400ms;
+        }
+        
+        .timeline-item:nth-child(4) {
+            transition-delay: 600ms;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="hero-content">
+            <h1 class="hero-title hidden">Celebrating <span class="gradient-text">Women's Day</span></h1>
+            <p class="hero-subtitle hidden">Honoring achievements and inspiring future generations</p>
+            <button class="cta-button hidden">Join The Movement</button>
+        </div>
+        <div class="wave"></div>
+    </header>
+    
+    <main class="main-content">
+        <section>
+            <h2 class="section-title hidden">Inspiring Women</h2>
+            <div class="card-container">
+                <div class="card hidden">
+                    <img src="https://via.placeholder.com/400x200" alt="Pioneering Scientists" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Pioneering Scientists</h3>
+                        <p class="card-text">From Marie Curie to Katherine Johnson, women have made groundbreaking contributions to science throughout history.</p>
+                        <button class="cta-button">Learn More</button>
+                    </div>
+                </div>
+                
+                <div class="card hidden">
+                    <img src="https://via.placeholder.com/400x200" alt="Visionary Leaders" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Visionary Leaders</h3>
+                        <p class="card-text">Women who have blazed trails in business, politics, and social movements, reshaping our world for the better.</p>
+                        <button class="cta-button">Learn More</button>
+                    </div>
+                </div>
+                
+                <div class="card hidden">
+                    <img src="https://via.placeholder.com/400x200" alt="Creative Innovators" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Creative Innovators</h3>
+                        <p class="card-text">Artists, writers, and creators who have challenged norms and expanded our cultural horizons in profound ways.</p>
+                        <button class="cta-button">Learn More</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="quote-section">
+            <div class="quote-container">
+                <div class="quote-icon">"</div>
+                <p class="quote-text">The question isn't who's going to let me; it's who's going to stop me.</p>
+                <p class="quote-author">- Ayn Rand</p>
+            </div>
+        </section>
+        
+        <section>
+            <h2 class="section-title hidden">Women's History Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item hidden">
+                    <div class="timeline-content">
+                        <span class="timeline-date">1903</span>
+                        <h3 class="timeline-title">Marie Curie</h3>
+                        <p class="timeline-text">First woman to win a Nobel Prize and only person to win in multiple scientific fields.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item hidden">
+                    <div class="timeline-content">
+                        <span class="timeline-date">1932</span>
+                        <h3 class="timeline-title">Amelia Earhart</h3>
+                        <p class="timeline-text">First female aviator to fly solo across the Atlantic Ocean.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item hidden">
+                    <div class="timeline-content">
+                        <span class="timeline-date">1975</span>
+                        <h3 class="timeline-title">International Women's Day</h3>
+                        <p class="timeline-text">United Nations begins celebrating International Women's Day.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item hidden">
+                    <div class="timeline-content">
+                        <span class="timeline-date">2014</span>
+                        <h3 class="timeline-title">Malala Yousafzai</h3>
+                        <p class="timeline-text">Youngest Nobel Prize laureate for her advocacy for female education.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="interactive-section">
+            <h2 class="section-title hidden">Make Your Pledge</h2>
+            <p class="hidden">Join thousands of others in committing to gender equality and women's empowerment</p>
+            
+            <form class="pledge-form hidden">
+                <div class="form-group">
+                    <label for="name" class="form-label">Your Name</label>
+                    <input type="text" id="name" class="form-input" placeholder="Enter your name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" id="email" class="form-input" placeholder="Enter your email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="pledge" class="form-label">Your Pledge</label>
+                    <textarea id="pledge" class="form-input form-textarea" placeholder="Share your commitment to supporting women's empowerment..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-button">Submit Your Pledge</button>
+            </form>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">Women Empowerment Initiative</div>
+            <p>Celebrating achievements and inspiring change</p>
+            
+            <div class="social-icons">
+                <div class="social-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white" viewBox="0 0 24 24">
+                        <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
+                    </svg>
+                </div>
+                <div class="social-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.066 9.645c.183 4.04-2.83 8.544-8.164 8.544-1.622 0-3.131-.476-4.402-1.291 1.524.18 3.045-.244 4.252-1.189-1.256-.023-2.317-.854-2.684-1.995.451.086.895.061 1.298-.049-1.381-.278-2.335-1.522-2.304-2.853.388.215.83.344 1.301.359-1.279-.855-1.641-2.544-.889-3.835 1.416 1.738 3.533 2.881 5.92 3.001-.419-1.796.944-3.527 2.799-3.527.825 0 1.572.349 2.096.907.654-.128 1.27-.368 1.824-.697-.215.671-.67 1.233-1.263 1.589.581-.07 1.135-.224 1.649-.453-.384.578-.87 1.084-1.433 1.489z"/>
+                    </svg>
+                </div>
+                <div class="social-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <nav class="footer-nav">
+                <a href="#" class="footer-link">About</a>
+                <a href="#" class="footer-link">Events</a>
+                <a href="#" class="footer-link">Resources</a>
+                <a href="#" class="footer-link">Support</a>
+                <a href="#" class="footer-link">Contact</a>
+            </nav>
+            
+            <p class="copyright">© 2025 Women's Day Celebration. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Scroll animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        });
+        
+        const hiddenElements = document.querySelectorAll('.hidden');
+        hiddenElements.forEach((el) => observer.observe(el));
+        
+        // Form submission
+        const pledgeForm = document.querySelector('.pledge-form');
+        pledgeForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const pledge = document.getElementById('pledge').value;
+            
+            if (!name || !email || !pledge) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // In a real application, you would send this data to a server
+            alert(`Thank you, ${name}! Your pledge has been recorded.`);
+            
+            // Reset form
+            pledgeForm.reset();
+        });
+        
+        // Dynamic quote rotation
+        const quotes = [
+            {
+                text: "The question isn't who's going to let me; it's who's going to stop me.",
+                author: "Ayn Rand"
+            },
+            {
+                text: "I am not free while any woman is unfree, even when her shackles are very different from my own.",
+                author: "Audre Lorde"
+            },
+            {
+                text: "We need women at all levels, including the top, to change the dynamic, reshape the conversation, to make sure women's voices are heard and heeded, not overlooked and ignored.",
+                author: "Sheryl Sandberg"
+            },
+            {
+                text: "Women belong in all places where decisions are being made. It shouldn't be that women are the exception.",
+                author: "Ruth Bader Ginsburg"
+            }
+        ];
+        
+        const quoteText = document.querySelector('.quote-text');
+        const quoteAuthor = document.querySelector('.quote-author');
+        let currentQuote = 0;
+        
+        function rotateQuotes() {
+            currentQuote = (currentQuote + 1) % quotes.length;
+            
+            quoteText.style.opacity = '0';
+            quoteAuthor.style.opacity = '0';
+            
+            setTimeout(() => {
+                quoteText.textContent = quotes[currentQuote].text;
+                quoteAuthor.textContent = `- ${quotes[currentQuote].author}`;
+                
+                quoteText.style.opacity = '1';
+                quoteAuthor.style.opacity = '1';
+            }, 500);
+        }
+        
+        setInterval(rotateQuotes, 10000);
+        
+        // CTA button functionality
+        const ctaButton = document.querySelector('header .cta-button');
+        ctaButton.addEventListener('click', function() {
+            document.querySelector('.pledge-form').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        });
+    </script>
+</body>
+</html>

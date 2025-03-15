@@ -8,7 +8,10 @@ const bookingController_1 = __importDefault(require("../controllers/bookingContr
 const router = express_1.default.Router();
 router.post('/', bookingController_1.default.createBooking);
 router.get('/', bookingController_1.default.getBookings);
+router.get('/user/:userId', bookingController_1.default.getBookingsByUser);
 router.get('/:id', bookingController_1.default.getBookingById);
 router.put('/:id', bookingController_1.default.updateBooking);
 router.delete('/:id', bookingController_1.default.cancelBooking);
+router.put('/accept/:id', bookingController_1.default.acceptBooking);
+router.put('/reject/:id', bookingController_1.default.rejectBooking);
 exports.default = router;

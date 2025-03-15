@@ -7,7 +7,6 @@ const ContactPage = () => {
     <>
     <Navbar/>
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
       <div className="bg-red-600 text-white py-16">
         <div className="max-w-6xl mx-auto px-6">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
@@ -17,7 +16,6 @@ const ContactPage = () => {
         </div>
       </div>
 
-      {/* Contact Information Cards */}
       <div className="max-w-6xl mx-auto px-6 -mt-8">
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           <div className="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow">
@@ -42,7 +40,6 @@ const ContactPage = () => {
           </div>
         </div>
 
-        {/* Contact Form Section */}
         <div className="grid md:grid-cols-2 gap-12 mb-16">
           <div>
             <h2 className="text-3xl font-bold mb-6">Send Us a Message</h2>
