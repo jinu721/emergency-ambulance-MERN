@@ -18,7 +18,8 @@ class UserService {
     }
     static async registerUser(userData) {
         try {
-            const { name, email, password, phone } = userData.formData;
+            console.log('userData', userData);
+            const { name, email, password, phone } = userData;
             console.log(name, email, password, phone);
             const existingUserEmail = await userModel_js_1.default.findOne({ email });
             if (existingUserEmail)
@@ -26,7 +27,7 @@ class UserService {
             const hashedPassword = await bcryptjs_1.default.hash(password, 10);
             const user = new userModel_js_1.default({ name, email, phone, password: hashedPassword, role: 'user' });
             await user.save();
-            const token = jsonwebtoken_1.default.sign({ id: user._id, role: user.role }, 'symteron3737', { expiresIn: '1h' });
+            const token = jsonwebtoken_1.default.sign({ id: user._id, role: user.role }, 'symteron3737', { expiresIn: '7d' });
             return { user, token };
         }
         catch (err) {
@@ -37,7 +38,7 @@ class UserService {
     static async loginUser(userData) {
         try {
             console.log(userData);
-            const { email, password } = userData.formData;
+            const { email, password } = userData;
             const user = await userModel_js_1.default.findOne({ email });
             if (!user)
                 throw new Error('Invalid Username');

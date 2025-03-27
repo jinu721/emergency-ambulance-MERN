@@ -14,14 +14,15 @@ class UserService {
   
   static async registerUser(userData: any) {
     try{
-      const { name,email, password,phone } = userData.formData;
+      console.log('userData',userData)
+      const { name,email, password,phone } = userData;
       console.log(name,email,password,phone)
       const existingUserEmail = await UserModel.findOne({ email });
       if (existingUserEmail) throw new Error('User email already exists');
       const hashedPassword = await bcrypt.hash(password, 10);
       const user = new UserModel({name,email,phone,password: hashedPassword,role:'user'});
       await user.save();
-      const token = jwt.sign({ id: user._id,role:user.role }, 'symteron3737', { expiresIn: '1h' });
+      const token = jwt.sign({ id: user._id,role:user.role }, 'symteron3737', { expiresIn: '7d' });
       return { user, token };
     }catch(err){
       console.log(err);
@@ -32,7 +33,7 @@ class UserService {
   static async loginUser(userData: any) {
     try{
       console.log(userData)
-      const { email, password } = userData.formData;
+      const { email, password } = userData;
   
       const user = await UserModel.findOne({ email });
       if (!user) throw new Error('Invalid Username');

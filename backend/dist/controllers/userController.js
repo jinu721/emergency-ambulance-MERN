@@ -17,6 +17,7 @@ class UserController {
     }
     static async registerUser(req, res) {
         try {
+            console.log('Req BODYY', req.body);
             const { user, token } = await userService_1.default.registerUser(req.body);
             res.status(201).json({ user, token });
         }
